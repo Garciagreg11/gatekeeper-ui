@@ -1,0 +1,18 @@
+[00:02:57.957] Server  LOG     ✓ Ready in 105s
+[00:32:30.403] Server  LOG     ○ Compiling / ...
+[00:35:23.966] Server  ERROR   WagmiProviderNotFoundError: `useConfig` must be used within `WagmiProvider`.
+
+Docs: https://wagmi.sh/react/api/WagmiProvider.html
+Version: wagmi@3.4.1
+[00:35:24.011] Server  ERROR   ⨯ WagmiProviderNotFoundError: `useConfig` must be used within `WagmiProvider`.
+
+Docs: https://wagmi.sh/react/api/WagmiProvider.html
+Version: wagmi@3.4.1
+[00:35:24.058] Server  ERROR   ⨯ WagmiProviderNotFoundError: `useConfig` must be used within `WagmiProvider`.
+
+Docs: https://wagmi.sh/react/api/WagmiProvider.html
+Version: wagmi@3.4.1
+[00:35:42.655] Browser ERROR   uncaughtError: WagmiProviderNotFoundError: `useConfig` must be used within `WagmiProvider`.
+
+Docs: https://wagmi.sh/react/api/WagmiProvider.html
+Version: wagmi@3.4.1
