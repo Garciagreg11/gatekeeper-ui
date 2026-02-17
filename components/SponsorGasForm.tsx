@@ -1,54 +1,62 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useWriteContract } from 'wagmi';
-import { GATEKEEPER_ABI } from '@/lib/abi/gatekeeper';
-import { GATEKEEPER_ADDRESS } from '@/lib/contracts';
+import { useState } from "react";
+import { useAccount, useWriteContract } from "wagmi";
+import { GATEKEEPER_ABI } from "@/lib/abi/gatekeeper";
 
 export default function SponsorGasForm() {
-  const [user, setUser] = useState('');
-  const [amount, setAmount] = useState('');
+  const [user, setUser] = useState<`0x${string}`>("0x");
+  const [amount, setAmount] = useState<string>("");
 
-  const { writeContract, isPending } = useWriteContract();
+  const { address: account } = useAccount();
+  const { writeContractAsync, isPending } = useWriteContract();
 
-  const submit = (e: React.FormEvent) => {
+  const handleSponsor = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    writeContract({
-      address: GATEKEEPER_ADDRESS as `0x${string}`,
+    if (!account) {
+      console.error("Wallet not connected");
+      return;
+    }
+
+    await writeContractAsync({
+      address: process.env.NEXT_PUBLIC_GATEKEEPER_ADDRESS as `0x${string}`,
       abi: GATEKEEPER_ABI,
-      functionName: 'sponsorGas',
-      args: [user as `0x${string}`, BigInt(amount)],
+      functionName: "sponsorGas",
+      args: [user, BigInt(amount)],
       value: BigInt(amount),
+      account, // REQUIRED in wagmi v3
     });
   };
 
   return (
-    <form onSubmit={submit} className="space-y-4">
-      <input
-        type="text"
-        placeholder="User address"
-        value={user}
-        onChange={(e) => setUser(e.target.value)}
-        className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-white"
-      />
+    <div className="p-4 border rounded-lg bg-gray-900 text-white">
+      <h2 className="text-xl font-bold mb-4">Sponsor Gas</h2>
 
       <input
         type="text"
+        placeholder="User wallet address"
+        className="w-full p-2 mb-3 bg-gray-800 border border-gray-700 rounded"
+        value={user}
+        onChange={(e) => setUser(e.target.value as `0x${string}`)}
+      />
+
+      <input
+        type="number"
         placeholder="Amount (wei)"
+        className="w-full p-2 mb-3 bg-gray-800 border border-gray-700 rounded"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
-        className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-white"
       />
 
       <button
-        type="submit"
+        onClick={handleSponsor}
         disabled={isPending}
-        className="w-full p-2 bg-blue-600 hover:bg-blue-700 rounded text-white"
+        className="w-full p-2 bg-blue-600 hover:bg-blue-700 rounded"
       >
-        {isPending ? 'Sending…' : 'Sponsor Gas'}
+        {isPending ? "Sending..." : "Sponsor Gas"}
       </button>
-    </form>
+    </div>
   );
 }
 
