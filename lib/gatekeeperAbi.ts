@@ -1,20 +1,23 @@
 export const GATEKEEPER_ABI = [
   {
-    "inputs": [
-      { "internalType": "address", "name": "user", "type": "address" },
-      { "internalType": "uint256", "name": "amount", "type": "uint256" }
+    type: "function",
+    name: "sponsorGas",
+    stateMutability: "payable",
+    inputs: [
+      { name: "user", type: "address" },
+      { name: "amount", type: "uint256" }
     ],
-    "name": "sponsorGas",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
+    outputs: []
   },
   {
-    "inputs": [{ "internalType": "address", "name": "user", "type": "address" }],
-    "name": "getSponsoredGas",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
+    type: "function",
+    name: "getSponsoredGas",
+    stateMutability: "view",
+    inputs: [
+      { name: "user", type: "address" }
+    ],
+    outputs: [
+      { name: "", type: "uint256" }
+    ]
   }
 ];
-
