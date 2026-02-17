@@ -10,6 +10,7 @@ const fetchUserDailyLimit = async (user: string) =>
     abi: GATEKEEPER_ABI,
     functionName: 'userDailyLimit',
     args: [user],
+    authorizationList: [],
   });
 
 export function useGatekeeper() {
