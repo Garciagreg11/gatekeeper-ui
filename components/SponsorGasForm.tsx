@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { 
   useAccount, 
-  useWriteContract, 
-  useChainId 
+  useWriteContract 
 } from "wagmi";
+import { base } from "wagmi/chains";
 import { GATEKEEPER_ABI } from "@/lib/abi/gatekeeper";
 import { GATEKEEPER_ADDRESS } from "@/lib/contracts";
 
@@ -14,7 +14,6 @@ export default function SponsorGasForm() {
   const [amount, setAmount] = useState<string>("");
 
   const { address: account } = useAccount();
-  const chainId = useChainId();
   const { writeContractAsync, isPending } = useWriteContract();
 
   const handleSponsor = async (e: React.FormEvent) => {
@@ -32,7 +31,7 @@ export default function SponsorGasForm() {
       args: [user, BigInt(amount)],
       value: BigInt(amount),
       account,
-      chain: chainId, // REQUIRED in wagmi v3
+      chain: base, // ⭐ wagmi v3 requires a Chain object, NOT a number
     });
   };
 
