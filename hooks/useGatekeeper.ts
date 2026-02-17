@@ -1,7 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { readContract, writeContract, waitForTransactionReceipt } from '@wagmi/core';
-import { config } from '@/wagmi';
-import { GATEKEEPER_ADDRESS, GatekeeperAbi } from '@/constants';
+import { config } from '@/lib/wagmi';
+import { GATEKEEPER_ADDRESS, GatekeeperAbi } from '@/lib/constants';
+
 
 // -----------------------------
 // READ HELPERS
