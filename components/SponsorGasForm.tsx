@@ -1,14 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { useAccount, useWriteContract } from "wagmi";
+import { 
+  useAccount, 
+  useWriteContract, 
+  useChainId 
+} from "wagmi";
 import { GATEKEEPER_ABI } from "@/lib/abi/gatekeeper";
+import { GATEKEEPER_ADDRESS } from "@/lib/contracts";
 
 export default function SponsorGasForm() {
   const [user, setUser] = useState<`0x${string}`>("0x");
   const [amount, setAmount] = useState<string>("");
 
   const { address: account } = useAccount();
+  const chainId = useChainId();
   const { writeContractAsync, isPending } = useWriteContract();
 
   const handleSponsor = async (e: React.FormEvent) => {
@@ -20,12 +26,13 @@ export default function SponsorGasForm() {
     }
 
     await writeContractAsync({
-      address: process.env.NEXT_PUBLIC_GATEKEEPER_ADDRESS as `0x${string}`,
+      address: GATEKEEPER_ADDRESS as `0x${string}`,
       abi: GATEKEEPER_ABI,
       functionName: "sponsorGas",
       args: [user, BigInt(amount)],
       value: BigInt(amount),
-      account, // REQUIRED in wagmi v3
+      account,
+      chain: chainId, // REQUIRED in wagmi v3
     });
   };
 
