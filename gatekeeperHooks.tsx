@@ -4,11 +4,10 @@ import { config } from '@/lib/wagmi';
 import { GATEKEEPER_ADDRESS } from '@/lib/constants';
 import { GATEKEEPER_ABI } from '@/lib/gatekeeperAbi';
 
-
 const fetchUserDailyLimit = async (user: string) =>
   readContract(config, {
     address: GATEKEEPER_ADDRESS,
-    abi: gatekeeperAbi,
+    abi: GATEKEEPER_ABI,
     functionName: 'userDailyLimit',
     args: [user],
   });
@@ -18,7 +17,7 @@ export function useGatekeeper() {
     useQuery({
       queryKey: ['userDailyLimit', user],
       queryFn: () => fetchUserDailyLimit(user),
-      enabled: Boolean(user), // prevents empty calls
+      enabled: Boolean(user),
     });
 
   return { userDailyLimit };
