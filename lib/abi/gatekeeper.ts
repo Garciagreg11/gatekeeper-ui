@@ -1,63 +1,191 @@
-export const GATEKEEPER_ADDRESS =
-  "0x3F0c2937E1B4854E6Bb78AE5E7ce49AF3B42D84e";
-
 export const GATEKEEPER_ABI = [
   {
-    "type": "function",
-    "name": "sponsorGas",
-    "stateMutability": "payable",
     "inputs": [
-      { "name": "user", "type": "address" },
-      { "name": "maxAmount", "type": "uint256" }
+      {
+        "internalType": "address",
+        "name": "_vault",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_globalDailyLimit",
+        "type": "uint256"
+      }
     ],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "batchSponsorGas",
-    "stateMutability": "payable",
-    "inputs": [
-      { "name": "users", "type": "address[]" },
-      { "name": "maxAmounts", "type": "uint256[]" }
-    ],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "remainingToday",
-    "stateMutability": "view",
-    "inputs": [{ "name": "user", "type": "address" }],
-    "outputs": [{ "name": "", "type": "uint256" }]
-  },
-  {
-    "type": "function",
-    "name": "withdraw",
     "stateMutability": "nonpayable",
-    "inputs": [{ "name": "amount", "type": "uint256" }],
-    "outputs": []
+    "type": "constructor"
   },
   {
-    "type": "function",
-    "name": "owner",
-    "stateMutability": "view",
-    "inputs": [],
-    "outputs": [{ "name": "", "type": "address" }]
-  },
-  {
-    "type": "function",
-    "name": "dailyLimit",
-    "stateMutability": "view",
-    "inputs": [],
-    "outputs": [{ "name": "", "type": "uint256" }]
-  },
-  {
-    "type": "event",
-    "name": "Sponsored",
+    "anonymous": false,
     "inputs": [
-      { "name": "user", "type": "address", "indexed": true },
-      { "name": "amount", "type": "uint256", "indexed": false }
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
     ],
-    "anonymous": false
-  }
-];
+    "name": "EmergencyWithdraw",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "caller",
+        "type": "address"
+      }
+    ],
+    "name": "GasSponsored",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "oldLimit",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newLimit",
+        "type": "uint256"
+      }
+    ],
+    "name": "GlobalDailyLimitUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "allowed",
+        "type": "bool"
+      }
+    ],
+    "name": "OperatorUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "oldOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnerChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "status",
+        "type": "bool"
+      }
+    ],
+    "name": "Paused",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "oldLimit",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newLimit",
+        "type": "uint256"
+      }
+    ],
+    "name": "UserDailyLimitUpdated",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "users",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountPerUser",
+        "type": "uint256"
+      }
+    ],
+    "name": "batchSponsorGas",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "dailySponsoredAmount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
 

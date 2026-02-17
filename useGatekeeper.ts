@@ -1,0 +1,80 @@
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  fetchGatekeeperConfig,
+  fetchUserDailyLimit,
+  fetchUserRemaining,
+  fetchOperatorStatus,
+  setUserDailyLimit,
+  setOperatorStatus,
+} from '@/lib/gatekeeper';
+
+// -----------------------------
+// READ HOOKS
+// -----------------------------
+
+export function useGatekeeperConfig() {
+  return useQuery({
+    queryKey: ['gatekeeperConfig'],
+    queryFn: fetchGatekeeperConfig,
+    ssr: false,
+  });
+}
+
+export function useUserDailyLimit(user: string | undefined) {
+  return useQuery({
+    queryKey: ['userDailyLimit', user],
+    queryFn: () => fetchUserDailyLimit(user!),
+    enabled: Boolean(user),
+    ssr: false,
+  });
+}
+
+export function useUserRemaining(user: string | undefined) {
+  return useQuery({
+    queryKey: ['userRemaining', user],
+    queryFn: () => fetchUserRemaining(user!),
+    enabled: Boolean(user),
+    ssr: false,
+  });
+}
+
+export function useOperatorStatus(operator: string | undefined) {
+  return useQuery({
+    queryKey: ['operatorStatus', operator],
+    queryFn: () => fetchOperatorStatus(operator!),
+    enabled: Boolean(operator),
+    ssr: false,
+  });
+}
+
+// -----------------------------
+// WRITE MUTATIONS
+// -----------------------------
+
+export function useSetUserDailyLimit() {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ user, limit }: { user: string; limit: number }) =>
+      setUserDailyLimit(user, limit),
+
+    onSuccess: (_, { user }) => {
+      qc.invalidateQueries({ queryKey: ['userDailyLimit', user] });
+      qc.invalidateQueries({ queryKey: ['userRemaining', user] });
+    },
+  });
+}
+
+export function useSetOperatorStatus() {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ operator, status }: { operator: string; status: boolean }) =>
+      setOperatorStatus(operator, status),
+
+    onSuccess: (_, { operator }) => {
+      qc.invalidateQueries({ queryKey: ['operatorStatus', operator] });
+    },
+  });
+}
+

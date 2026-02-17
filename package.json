@@ -1,14 +1,16 @@
 {
-  "name": "gatekeeper-dashboard",
+  "name": "gatekeeper-ui",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.90.20",
+    "@tanstack/react-query": "^5.90.21",
+    "@tanstack/react-query-devtools": "^5.91.3",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
@@ -16,11 +18,12 @@
     "wagmi": "latest"
   },
   "devDependencies": {
-    "@types/node": "latest",
-    "@types/react": "latest",
-    "autoprefixer": "latest",
-    "postcss": "latest",
-    "tailwindcss": "latest",
-    "typescript": "latest"
+    "@tanstack/eslint-plugin-query": "^5.91.4",
+    "@types/node": "^25.2.2",
+    "@types/react": "^19.2.13",
+    "autoprefixer": "^10.4.24",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3"
   }
 }

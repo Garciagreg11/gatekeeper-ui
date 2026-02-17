@@ -1,74 +1,53 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import {
-  useWriteContract,
-  useWaitForTransactionReceipt,
-} from "wagmi";
-import { parseEther } from "viem";
-import {
-  GATEKEEPER_ABI,
-  GATEKEEPER_ADDRESS,
-} from "@/lib/abi/gatekeeper";
+import { useState } from 'react';
+import { useWriteContract } from 'wagmi';
+import { GATEKEEPER_ABI } from '@/lib/abi/gatekeeper';
+import { GATEKEEPER_ADDRESS } from '@/lib/contracts';
 
 export default function SponsorGasForm() {
-  const [address, setAddress] = useState("");
-  const [amount, setAmount] = useState("");
+  const [user, setUser] = useState('');
+  const [amount, setAmount] = useState('');
 
-  const {
-    data: hash,
-    writeContract,
-    error,
-    isPending,
-  } = useWriteContract();
+  const { writeContract, isPending } = useWriteContract();
 
-  const {
-    isLoading: isConfirming,
-    isSuccess,
-  } = useWaitForTransactionReceipt({
-    hash,
-  });
-
-  function handleSubmit(e: React.FormEvent) {
+  const submit = (e: React.FormEvent) => {
     e.preventDefault();
 
     writeContract({
-      address: GATEKEEPER_ADDRESS,
+      address: GATEKEEPER_ADDRESS as `0x${string}`,
       abi: GATEKEEPER_ABI,
-      functionName: "sponsorGas",
-      args: [address],
-      value: parseEther(amount),
+      functionName: 'sponsorGas',
+      args: [user as `0x${string}`, BigInt(amount)],
+      value: BigInt(amount),
     });
-  }
+  };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={submit} className="space-y-4">
       <input
-        className="w-full p-2 bg-gray-900 border border-gray-700 rounded"
+        type="text"
         placeholder="User address"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
+        value={user}
+        onChange={(e) => setUser(e.target.value)}
+        className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-white"
       />
 
       <input
-        className="w-full p-2 bg-gray-900 border border-gray-700 rounded"
-        placeholder="Amount in ETH"
+        type="text"
+        placeholder="Amount (wei)"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
+        className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-white"
       />
 
       <button
         type="submit"
         disabled={isPending}
-        className="px-4 py-2 bg-blue-600 rounded disabled:opacity-50"
+        className="w-full p-2 bg-blue-600 hover:bg-blue-700 rounded text-white"
       >
-        {isPending ? "Sending..." : "Sponsor Gas"}
+        {isPending ? 'Sending…' : 'Sponsor Gas'}
       </button>
-
-      {hash && <p className="text-green-400 break-all">Tx: {hash}</p>}
-      {isConfirming && <p className="text-yellow-400">Confirming...</p>}
-      {isSuccess && <p className="text-green-500">Success!</p>}
-      {error && <p className="text-red-500">{error.message}</p>}
     </form>
   );
 }

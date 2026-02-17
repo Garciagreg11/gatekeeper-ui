@@ -1,4 +1,4 @@
-export const gatekeeperAbi = [
+export const GATEKEEPER_ABI = [
   {
     type: "function",
     name: "owner",

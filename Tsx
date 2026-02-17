@@ -1,0 +1,1 @@
+{globalDailyLimit.data?.toString() ?? "Loading..."}
