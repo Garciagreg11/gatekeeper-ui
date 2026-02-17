@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { readContract, writeContract, waitForTransactionReceipt } from '@wagmi/core';
 import { config } from '@/wagmi';
-import { GATEKEEPER_ADDRESS, gatekeeperAbi } from '@/constants';
+import { GATEKEEPER_ADDRESS, GatekeeperAbi } from '@/constants';
 
 // -----------------------------
 // READ HELPERS
@@ -10,14 +10,14 @@ import { GATEKEEPER_ADDRESS, gatekeeperAbi } from '@/constants';
 const fetchGlobalDailyLimit = async () =>
   readContract(config, {
     address: GATEKEEPER_ADDRESS,
-    abi: gatekeeperAbi,
+    Abi: GatekeeperAbi,
     functionName: 'globalDailyLimit',
   });
 
 const fetchUserDailyLimit = async (user: string) =>
   readContract(config, {
     address: GATEKEEPER_ADDRESS,
-    abi: gatekeeperAbi,
+    Abi: GatekeeperAbi,
     functionName: 'userDailyLimit',
     args: [user],
   });
@@ -25,7 +25,7 @@ const fetchUserDailyLimit = async (user: string) =>
 const fetchRemainingToday = async (user: string) =>
   readContract(config, {
     address: GATEKEEPER_ADDRESS,
-    abi: gatekeeperAbi,
+    Abi: GatekeeperAbi,
     functionName: 'remainingToday',
     args: [user],
   });
@@ -37,7 +37,7 @@ const fetchRemainingToday = async (user: string) =>
 const writeSetGlobalDailyLimit = async (newLimit: bigint) => {
   const hash = await writeContract(config, {
     address: GATEKEEPER_ADDRESS,
-    abi: gatekeeperAbi,
+    Abi: GatekeeperAbi,
     functionName: 'setGlobalDailyLimit',
     args: [newLimit],
   });
@@ -47,7 +47,7 @@ const writeSetGlobalDailyLimit = async (newLimit: bigint) => {
 const writeSetUserDailyLimit = async (user: string, newLimit: bigint) => {
   const hash = await writeContract(config, {
     address: GATEKEEPER_ADDRESS,
-    abi: gatekeeperAbi,
+    Abi: GatekeeperAbi,
     functionName: 'setUserDailyLimit',
     args: [user, newLimit],
   });
@@ -57,7 +57,7 @@ const writeSetUserDailyLimit = async (user: string, newLimit: bigint) => {
 const writeSponsorGas = async (user: string, amount: bigint) => {
   const hash = await writeContract(config, {
     address: GATEKEEPER_ADDRESS,
-    abi: gatekeeperAbi,
+    Abi: GatekeeperAbi,
     functionName: 'sponsorGas',
     args: [user, amount],
   });
