@@ -1,5 +1,6 @@
 import { readContract } from "wagmi/actions";
 import { base } from "wagmi/chains";
+import { config } from "@/wagmi";
 import { GATEKEEPER_ADDRESS } from "@/constants";
 import { GATEKEEPER_ABI } from "@/abis/gatekeeperAbi";
 
