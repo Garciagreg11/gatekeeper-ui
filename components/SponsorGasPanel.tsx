@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useAccount, useChainId, useWriteContract } from "wagmi";
+import { useAccount, useWriteContract } from "wagmi";
+import { base } from "wagmi/chains";
 import { GATEKEEPER_ABI } from "@/abis/gatekeeperAbi";
 import { GATEKEEPER_ADDRESS } from "@/constants";
 
@@ -9,7 +10,6 @@ export default function SponsorGasPanel() {
   const [user, setUser] = useState("");
   const [amount, setAmount] = useState("");
 
-  const chainId = useChainId();
   const { address: account } = useAccount();
   const { writeContract, isPending } = useWriteContract();
 
@@ -21,7 +21,7 @@ export default function SponsorGasPanel() {
       abi: GATEKEEPER_ABI,
       functionName: "sponsorGas",
       args: [user as `0x${string}`, BigInt(amount)],
-      chain: chainId,
+      chain: base,
       account,
     });
   };
