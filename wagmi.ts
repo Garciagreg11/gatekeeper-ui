@@ -1,11 +1,13 @@
 // wagmi.ts
 
-import { createConfig, http } from 'wagmi';
-import { baseSepolia } from 'wagmi/chains';
+import { createConfig, http } from "wagmi";
+import { base } from "wagmi/chains";
 
 export const config = createConfig({
-  chains: [baseSepolia],
+  chains: [base],
   transports: {
-    [baseSepolia.id]: http(),
+    [base.id]: http("https://mainnet.base.org"),
   },
+  ssr: true,
 });
+
